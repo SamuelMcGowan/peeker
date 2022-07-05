@@ -1,12 +1,12 @@
 use crate::Peek;
 
 #[must_use]
-pub struct NextWhile<I: Peek, F: Fn(&I::Item) -> bool> {
-    inner: I,
+pub struct NextWhile<'a, I: Peek, F: Fn(&I::Item) -> bool> {
+    inner: &'a mut I,
     predicate: F,
 }
 
-impl<I: Peek, F: Fn(&I::Item) -> bool> Iterator for NextWhile<I, F> {
+impl<'a, I: Peek, F: Fn(&I::Item) -> bool> Iterator for NextWhile<'a, I, F> {
     type Item = I::Item;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -21,7 +21,7 @@ pub trait NextIf: Peek + Sized {
     fn next_if<F: Fn(&Self::Item) -> bool>(&mut self, predicate: F) -> bool;
 
     #[inline]
-    fn next_while<F: Fn(&Self::Item) -> bool>(self, predicate: F) -> NextWhile<Self, F> {
+    fn next_while<F: Fn(&Self::Item) -> bool>(&mut self, predicate: F) -> NextWhile<Self, F> {
         NextWhile {
             inner: self,
             predicate,

@@ -36,4 +36,11 @@ mod tests {
         let nums: Vec<usize> = (0..10).peekable().next_while(|&n| n < 5).collect();
         assert_eq!(nums, vec![0, 1, 2, 3, 4])
     }
+
+    #[test]
+    fn by_ref() {
+        let mut nums = (0..10).peekable();
+        nums.by_ref().next_while(|&n| n < 5).consume();
+        assert_eq!(nums.next(), Some(5));
+    }
 }
