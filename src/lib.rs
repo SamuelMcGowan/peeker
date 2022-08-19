@@ -1,5 +1,6 @@
 mod eat;
 pub use eat::*;
+use peekmore::PeekMoreIterator;
 
 use std::iter::Peekable;
 
@@ -9,6 +10,12 @@ pub trait Peek: Iterator {
 
 impl<I: Iterator> Peek for Peekable<I> {
     #[inline]
+    fn peek(&mut self) -> Option<&Self::Item> {
+        self.peek()
+    }
+}
+
+impl<I: Iterator> Peek for PeekMoreIterator<I> {
     fn peek(&mut self) -> Option<&Self::Item> {
         self.peek()
     }
