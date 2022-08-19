@@ -55,7 +55,3 @@ where
         self.next_if(|item| *item == value)
     }
 }
-
-// if lexer.eat_if(|token| token.is_sep()).is_some() {
-//     // ...
-// }
